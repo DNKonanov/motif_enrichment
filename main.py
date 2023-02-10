@@ -1,8 +1,12 @@
-import numpy as np
+
+import warnings
+warnings.filterwarnings('ignore')
+
 from Bio.SeqIO import parse
 from src.motif_extraction import extract_motifs
 import os
 from argparse import ArgumentParser
+
 
 parser = ArgumentParser()
 
@@ -11,6 +15,7 @@ parser.add_argument('-ref', help='ref',type=str, required=True)
 parser.add_argument('-max_motifs', help='max motifs', default=20, type=int)
 parser.add_argument('-min_conf', help='min conf', default=1000)
 parser.add_argument('-savepath', default=None, type=str)
+parser.add_argument('-t', help='humber of threads used (default 20)', default=20, type=int)
 
 args = parser.parse_args()
 
@@ -46,7 +51,7 @@ DETAILED_MOTIF_SET = extract_motifs(
     outdir, 
     args.max_motifs,
     args.min_conf, 
-    threads=60
+    threads=args.t,
 )
 
 print('\n---------RESULTS---------\n')
